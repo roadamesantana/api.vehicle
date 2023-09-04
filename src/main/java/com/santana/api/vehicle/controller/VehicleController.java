@@ -1,6 +1,6 @@
 package com.santana.api.vehicle.controller;
 
-import com.santana.api.vehicle.model.Vehicle;
+import com.santana.api.vehicle.exception.HeaderException;
 import com.santana.api.vehicle.service.IVehicleService;
 import com.santana.api.vehicle.util.HeaderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = {"/vehicles"})
@@ -24,8 +23,15 @@ public class VehicleController {
     private HeaderUtil headerUtil;
 
     @GetMapping(value = "", produces = "application/json")
-    public ResponseEntity<List<Vehicle>> getVehicles(HttpServletRequest request) throws Exception {
-        Integer loggedUserId = Integer.valueOf(headerUtil.getHeaderField("user_id", request));
+    public ResponseEntity getVehicles(HttpServletRequest request) throws HeaderException {
+        Integer loggedUserId = -1;
+
+        try {
+            loggedUserId = Integer.valueOf(headerUtil.getHeaderField("user_id", request));
+        } catch (HeaderException exception) {
+            throw exception;
+        }
+
         return ResponseEntity.status(HttpStatus.OK).body(vehicleService.getVehicles(loggedUserId));
     }
 }
