@@ -1,5 +1,6 @@
 package com.santana.api.vehicle.service.impl;
 
+import com.santana.api.vehicle.exception.HeaderException;
 import com.santana.api.vehicle.model.Vehicle;
 import com.santana.api.vehicle.repository.VehicleRepository;
 import com.santana.api.vehicle.service.IVehicleService;
@@ -15,7 +16,7 @@ public class VehicleService implements IVehicleService {
     private VehicleRepository vehicleRepository;
 
     @Override
-    public List<Vehicle> getVehicles(Integer userId) {
+    public List<Vehicle> getVehicles(Integer userId) throws HeaderException {
         return vehicleRepository.findVehicleByUserIdUserAndIsDeleted(userId, "F");
     }
 }

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.MockitoAnnotations.openMocks;
 
+import com.santana.api.vehicle.exception.HeaderException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,7 +32,7 @@ public class HeaderUtilTest implements AutoCloseable {
 
     @Test
     @DisplayName("Simple test has userId")
-    void testHasUserId() throws Exception {
+    void testHasUserId() throws HeaderException {
         final String expected = "user";
 
         doReturn("user").when(request).getHeader("user");
