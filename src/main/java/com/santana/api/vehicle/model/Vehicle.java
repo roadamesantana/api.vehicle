@@ -21,6 +21,8 @@ public class Vehicle {
 
     private String vinNumber;
 
+    private String plate;
+
     private String brand;
 
     private String model;
