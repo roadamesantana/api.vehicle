@@ -1,5 +1,6 @@
 package com.santana.api.vehicle.service;
 
+import com.santana.api.vehicle.domain.Vehicle;
 import com.santana.api.vehicle.dto.VehicleDto;
 import com.santana.api.vehicle.exception.HeaderException;
 import reactor.core.publisher.Flux;
@@ -12,5 +13,7 @@ public interface IVehicleService {
     Mono<VehicleDto> getVehicleById(String username, String id) throws HeaderException;
 
     Mono<VehicleDto> getVehicleByVinNumber(String username, String vinNumber);
+
+    Mono<VehicleDto> newVehicle(String username, Vehicle v);
 
 }

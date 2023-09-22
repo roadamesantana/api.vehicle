@@ -9,7 +9,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.sql.Time;
 import java.util.Date;
 
 @Data
@@ -39,10 +38,10 @@ public class Vehicle {
 
     private boolean enabled;
 
-    private Time createdAt;
+    private Date createdAt;
 
-    private Time updatedAt;
+    private Date updatedAt;
 
-    private Time deletedAt;
+    private Date deletedAt;
 
 }

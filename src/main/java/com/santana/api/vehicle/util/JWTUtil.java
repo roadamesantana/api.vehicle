@@ -4,10 +4,12 @@ import com.santana.api.vehicle.exception.HeaderException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @Component
@@ -17,7 +19,11 @@ public class JWTUtil {
     @Value("${jwt.secret}")
     private String secret;
 
-    public String getUsernameFromToken(String token) {
+    @Autowired
+    private HeaderUtil headerUtil;
+
+    public String getUsernameFromRequest(HttpServletRequest request) {
+        final String token = headerUtil.getHeaderField("x-token", request);
         final Claims claimsFromToken = getAllClaimsFromToken(token);
 
         validateExpirationToken(claimsFromToken.getExpiration());
