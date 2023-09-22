@@ -1,13 +1,12 @@
 package com.santana.api.vehicle.service.impl;
 
 import com.santana.api.vehicle.exception.HeaderException;
-import com.santana.api.vehicle.model.Vehicle;
-import com.santana.api.vehicle.repository.VehicleRepository;
+import com.santana.api.vehicle.domain.Vehicle;
+import com.santana.api.vehicle.data.VehicleRepository;
 import com.santana.api.vehicle.service.IVehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
 
 @Service
 public class VehicleService implements IVehicleService {
@@ -16,7 +15,7 @@ public class VehicleService implements IVehicleService {
     private VehicleRepository vehicleRepository;
 
     @Override
-    public List<Vehicle> getVehicles(Integer userId) throws HeaderException {
-        return vehicleRepository.findVehicleByUserIdUserAndIsDeleted(userId, "F");
+    public Flux<Vehicle> getVehiclesByUsername(String username) throws HeaderException {
+        return vehicleRepository.findByUsernameAndEnabledTrue(username);
     }
 }

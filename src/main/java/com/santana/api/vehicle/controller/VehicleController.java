@@ -1,19 +1,20 @@
 package com.santana.api.vehicle.controller;
 
+import com.santana.api.vehicle.domain.Vehicle;
 import com.santana.api.vehicle.exception.HeaderException;
 import com.santana.api.vehicle.service.IVehicleService;
 import com.santana.api.vehicle.util.HeaderUtil;
+import com.santana.api.vehicle.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping(value = {"/vehicles"})
+@RequestMapping(value = {"/vehicle"})
 public class VehicleController {
 
     @Autowired
@@ -22,16 +23,13 @@ public class VehicleController {
     @Autowired
     private HeaderUtil headerUtil;
 
-    @GetMapping(value = "", produces = "application/json")
-    public ResponseEntity getVehicles(HttpServletRequest request) throws HeaderException {
-        Integer loggedUserId = -1;
+    @Autowired
+    private JWTUtil jwtUtil;
 
-        try {
-            loggedUserId = Integer.valueOf(headerUtil.getHeaderField("user_id", request));
-        } catch (HeaderException exception) {
-            throw exception;
-        }
+    @GetMapping(produces = "application/json")
+    public Flux<Vehicle> getVehicles(HttpServletRequest request) throws HeaderException {
+        final String loggedUserId = jwtUtil.getUsernameFromToken(headerUtil.getHeaderField("x-token", request));
 
-        return ResponseEntity.status(HttpStatus.OK).body(vehicleService.getVehicles(loggedUserId));
+        return vehicleService.getVehiclesByUsername(loggedUserId);
     }
 }

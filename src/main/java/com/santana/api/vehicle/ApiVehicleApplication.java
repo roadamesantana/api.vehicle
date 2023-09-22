@@ -1,11 +1,14 @@
 package com.santana.api.vehicle;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.santana.api.vehicle"})
+@EnableAutoConfiguration
+@EnableDiscoveryClient
 public class ApiVehicleApplication {
 
 	public static void main(String[] args) {
